@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逸仙樓 | 遊戲公會官網</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft JhengHei", sans-serif;
+        }
+
+        /* 讓捲動更平滑 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* 背景大圖 */
+           /* 1. 新增：強制固定的背景圖層 */
+        .fixed-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 這裡放你的圖片 */
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), 
+                        url('GG For The Follow.jpeg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1; /* 確保它在所有內容的下面 */
+        }
+
+        /* 2. 修改：原本的 hero-section 去掉背景 */
+        .hero-section {
+            height: 100vh;
+            width: 100%;
+            /* 把背景刪掉，讓它變透明，露出底下的 .fixed-bg */
+            background: transparent; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #ffa600; }
+        
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #ff4d4d; }
+
+        .main-title {
+            font-size: clamp(40px, 10vw, 80px); /* 響應式字體 */
+            letter-spacing: 15px;
+            text-shadow: 0 0 20px #ffa600, 0 0 30px #ff0000;
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 20px;
+            color: #ff4d4d;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .description {
+            font-size: 18px;
+            color: #ffa704;
+            max-width: 700px;
+            margin-bottom: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .cta-btn {
+            margin-top: 30px;
+            padding: 12px 40px;
+            border: 1px solid #ff4d4d;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.4s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background: #ff4d4d;
+            box-shadow: 0 0 20px #ff4d4d;
+        }
+
+        /* --- 新增：內容區塊樣式 --- */
+        .content-container {
+            padding: 80px 10% 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 32px;
+            border-left: 5px solid #ff4d4d;
+            padding-left: 15px;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+
+        /* 攻略卡片佈局 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: #ff4d4d;
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #ffa600;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #bbb;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<body>
+    <div class="fixed-bg"></div>
+
+    <nav>
+        </nav>
+
+    <header class="hero-section">
+        </header>
+
+    <main class="content-container">
+        </main>
+</body>
+    <nav>
+        <div class="logo">逸仙樓</div>
+        <div class="nav-links">
+            <a href="#">首頁</a>
+            <a href="#notice">公會規章</a>
+            <a href="#wiki">攻略情報</a>
+            <a href="#">夥伴名錄</a>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <h1 class="main-title">逸仙樓</h1>
+        <p class="sub-title">BLEACH：刀鳴 公會官網</p>
+        <div class="description">
+            <p>嗨嘍～歡迎各位的加入！</p>
+            <p>🔥每天務必參與「公會王」與「金幣捐贈」</p>
+            <p>🔥世界王記得按傷害增益，週三、五、日準時開戰！</p>
+        </div>
+        <a href="#wiki" class="cta-btn">探索攻略庫</a>
+    </header>
+
+    <main class="content-container">
+        
+        <section id="notice" style="margin-bottom: 80px;">
+            <h2 class="section-title">公會重要任務</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>每日必做</h3>
+                    <p>1. 公會王挑戰 (次數刷滿)<br>2. 滿額金幣捐贈<br>3. 領取公會福利</p>
+                </div>
+                <div class="card">
+                    <h3>限時活動</h3>
+                    <p>週三、五、日：世界王<br>請在晚上活動開啟前確認體力與增益 Buff 已就位。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="wiki">
+            <h2 class="section-title">遊戲攻略庫</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>角色培育指南</h3>
+                    <p>分析當前版本 T0 角色，如何有效分配資源進行「卍解」升階。</p>
+                </div>
+                <div class="card">
+                    <h3>副本走位技巧</h3>
+                    <p>針對高難度 BOSS 的技能循環教學，提高生存率與傷害輸出。</p>
+                </div>
+                <div class="card">
+                    <h3>兌換碼匯總</h3>
+                    <p>本月最新可用虛寶碼：BLEACH2026、HERO777...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
