@@ -1,251 +1,96 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>逸仙樓 | 遊戲公會官網</title>
     <style>
-        /* 基礎設定 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft JhengHei", sans-serif;
-        }
-
+        /* --- 基礎設定 & 死神黑金風格 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft JhengHei", sans-serif; }
         html { scroll-behavior: smooth; }
+        body { background-color: #0b0b0b; color: white; line-height: 1.6; overflow-x: hidden; }
 
-        body {
-            background-color: #0b0b0b;
-            color: white;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* 1. 固定背景層 */
         .fixed-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                        url('GG For The Follow.jpeg');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('GG For The Follow.jpeg');
+            background-size: cover; background-position: center; z-index: -1;
         }
 
-        /* 2. 導航欄 */
+        /* --- 導覽列 (含漢堡選單) --- */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            border-bottom: 1px solid #333;
+            position: fixed; top: 0; width: 100%; padding: 15px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.95); z-index: 1000; border-bottom: 1px solid #333;
         }
-
-        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #ffa600; }
-        .nav-links a {
-            color: #ccc;
-            text-decoration: none;
-            margin-left: 25px;
-            font-size: 16px;
-            transition: 0.3s;
-        }
+        .logo { font-size: 24px; font-weight: bold; color: #ffa600; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: #ccc; text-decoration: none; transition: 0.3s; font-size: 16px; }
         .nav-links a:hover { color: #ff4d4d; }
+        .menu-toggle { display: none; background: none; border: none; color: #ffa600; font-size: 28px; cursor: pointer; }
 
-        /* 3. 主視覺區域 */
-        .hero-section {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 20px;
-        }
+        /* --- 主視覺 --- */
+        .hero-section { height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
+        .main-title { font-size: clamp(50px, 10vw, 80px); text-shadow: 0 0 20px #ffa600, 0 0 40px #ff0000; margin-bottom: 10px; }
+        .sub-title { font-size: 20px; color: #ff4d4d; letter-spacing: 5px; margin-bottom: 20px; }
+        .description { font-size: 16px; color: #ffa704; max-width: 650px; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 166, 0, 0.2); margin: 0 20px; }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .main-title {
-            font-size: clamp(50px, 10vw, 90px);
-            letter-spacing: 15px;
-            text-shadow: 0 0 20px #ffa600, 0 0 40px #ff0000;
-            margin-bottom: 10px;
-            animation: slideIn 1.2s ease-out;
-        }
-
-        .sub-title {
-            font-size: 22px;
-            color: #ff4d4d;
-            margin-bottom: 25px;
-            letter-spacing: 5px;
-            animation: slideIn 1.5s ease-out;
-        }
-
-        .description {
-            font-size: 16px;
-            color: #ffa704;
-            max-width: 650px;
-            background: rgba(0,0,0,0.6);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 166, 0, 0.2);
-        }
-
-        .cta-btn {
-            margin-top: 40px;
-            padding: 15px 45px;
-            border: 1px solid #ff4d4d;
-            background: rgba(255, 77, 77, 0.1);
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.4s;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .cta-btn:hover {
-            background: #ff4d4d;
-            box-shadow: 0 0 30px #ff4d4d;
-            transform: scale(1.05);
-        }
-
-        /* 4. 內容區 */
-        .content-container {
-            padding: 100px 10%;
-            background-color: rgba(11, 11, 11, 0.9);
-            position: relative;
-            z-index: 1;
-        }
-
-        .section-title {
-            font-size: 32px;
-            border-left: 6px solid #ff4d4d;
-            padding-left: 20px;
-            margin-bottom: 50px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: #1a1a1a;
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            border-color: #ff4d4d;
-            transform: translateY(-10px);
-            background: #222;
-        }
-
+        /* --- 內容區塊 --- */
+        .content-container { padding: 60px 10%; background: rgba(11, 11, 11, 0.92); position: relative; z-index: 1; }
+        .section-title { font-size: 30px; border-left: 6px solid #ff4d4d; padding-left: 15px; margin: 60px 0 30px; color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card { background: #1a1a1a; padding: 30px; border-radius: 12px; border: 1px solid #333; transition: 0.3s; }
+        .card:hover { border-color: #ff4d4d; transform: translateY(-5px); }
         .card h3 { color: #ffa600; margin-bottom: 15px; }
-        .card p { color: #bbb; }
 
-        /* 5. 成員名錄折疊版 */
-        .member-section { padding: 60px 0; }
-
+        /* --- 成員名錄 (摺疊 & 卡片) --- */
         .member-wrapper {
-            max-height: 0; /* 預設完全隱藏 */
-            overflow: hidden;
+            max-height: 0; overflow: hidden; opacity: 0;
             transition: max-height 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
-            opacity: 0;
         }
-
-        .member-wrapper.expanded {
-            max-height: 8000px; /* 足夠容納 70+ 人的高度 */
-            opacity: 1;
-            margin-bottom: 30px;
-        }
+        .member-wrapper.expanded { max-height: 10000px; opacity: 1; }
 
         .member-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; margin-top: 20px;
         }
-
         .member-card {
-            background: rgba(26, 26, 26, 0.8);
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            transition: 0.3s;
-            backdrop-filter: blur(5px);
+            background: rgba(30, 30, 30, 0.8); border: 1px solid #333; border-radius: 10px;
+            padding: 15px; text-align: center; cursor: pointer; transition: 0.3s;
         }
+        .member-card:hover { transform: translateY(-5px); border-color: #ff4d4d; box-shadow: 0 0 15px rgba(255, 77, 77, 0.3); }
+        .member-avatar { width: 55px; height: 55px; background: #222; border-radius: 50%; margin: 0 auto 10px; 
+                         line-height: 55px; font-weight: bold; color: #ffa600; border: 1px solid #444; font-size: 22px; }
+        .member-name { font-size: 15px; font-weight: bold; margin-bottom: 5px; }
+        .role-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); color: #aaa; }
+        .role-leader { background: rgba(255, 166, 0, 0.2); color: #ffa600; border: 1px solid #ffa600; }
 
-        .member-card:hover {
-            transform: translateY(-5px);
-            border-color: #ff4d4d;
-            box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
-        }
-
-        .member-avatar {
-            width: 50px;
-            height: 50px;
-            background: #222;
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffa600;
-            border: 1px solid #444;
-        }
-
-        .member-name { font-size: 15px; font-weight: bold; color: #fff; }
-        .member-ign { font-size: 12px; color: #ff4d4d; margin-bottom: 8px; }
-        .member-role {
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #aaa;
-            border: 1px solid #444;
-        }
-
-        .role-leader { background: rgba(255, 166, 0, 0.2); color: #ffa600; border-color: #ffa600; }
-
-        /* 展開按鈕 */
         .toggle-btn {
-            display: block;
-            margin: 40px auto;
-            padding: 15px 40px;
-            background: transparent;
-            border: 1px solid #ffa600;
-            color: #ffa600;
-            cursor: pointer;
-            font-size: 18px;
-            letter-spacing: 3px;
-            transition: 0.4s;
-            border-radius: 4px;
+            display: block; margin: 40px auto; padding: 15px 45px;
+            background: transparent; border: 1px solid #ffa600; color: #ffa600;
+            cursor: pointer; font-size: 18px; letter-spacing: 2px; border-radius: 4px; transition: 0.4s;
         }
+        .toggle-btn:hover { background: #ffa600; color: #000; box-shadow: 0 0 20px #ffa600; }
 
-        .toggle-btn:hover {
-            background: #ffa600;
-            color: #000;
-            box-shadow: 0 0 20px #ffa600;
+        /* --- 彈出視窗 (Modal) --- */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: #1a1a1a; padding: 35px; border-radius: 15px; border: 1px solid #ffa600;
+            width: 85%; max-width: 400px; text-align: center; position: relative;
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #777; }
+        #modalMemberName { font-size: 26px; color: #ffa600; margin-bottom: 10px; }
+        #modalMemberIgn { font-size: 16px; color: #ff4d4d; margin-bottom: 20px; display: block; }
+        .modal-body { text-align: left; color: #ccc; border-top: 1px solid #333; padding-top: 15px; }
+
+        /* 手機適配 */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 65px; left: 0; width: 100%; background: #0b0b0b; padding: 20px; gap: 15px; text-align: center; border-bottom: 1px solid #333; }
+            .nav-links.show { display: flex; }
+            .menu-toggle { display: block; }
+            .content-container { padding: 40px 5%; }
         }
     </style>
 </head>
@@ -255,7 +100,8 @@
 
     <nav>
         <div class="logo">逸仙樓</div>
-        <div class="nav-links">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="nav-links" id="navLinks">
             <a href="#">首頁</a>
             <a href="#news">最新消息</a>
             <a href="#notice">公會規章</a>
@@ -272,7 +118,6 @@
             <p>🔥每天務必參與「公會王」與「金幣捐贈」</p>
             <p>🔥世界王記得按傷害增益，週三、五、日準時開戰！</p>
         </div>
-        <a href="#notice" class="cta-btn">查看公會規章</a>
     </header>
 
     <main class="content-container">
@@ -290,13 +135,104 @@
             </div>
         </section>
 
-        <section id="news" style="margin-top: 100px;">
+        <section id="news">
             <h2 class="section-title">最新消息</h2>
             <div class="card" style="width: 100%;">
                 <p><span style="color: #ff4d4d;">[公告]</span> 2026/03/25 公會戰正式開啟，請成員準時上線！</p>
-                <hr style="border: 0.5px solid #333; margin: 10px 0;">
+                <hr style="border: 0.5px solid #333; margin: 15px 0;">
                 <p><span style="color: #ffa600;">[攻略]</span> 新角色「黑崎一護（卍解）」技能評測已上線。</p>
             </div>
+        </section>
+
+        <section id="members">
+            <h2 class="section-title">成員名錄 (共計 70+ 位)</h2>
+            <div class="member-wrapper" id="memberWrapper">
+                <div class="member-grid">
+                    <div class="member-card" data-name="凱蒂" data-ign="凱蒂喵喵" data-role="會長" data-note="逸仙樓創始人，最萌領袖！">
+                        <div class="member-avatar">凱</div><div class="member-name">凱蒂</div><span class="role-tag role-leader">會長</span>
+                    </div>
+
+                    <div class="member-card" data-name="均" data-ign="EvR" data-role="成員" data-note="公會資深戰力。"><div class="member-avatar">均</div><div class="member-name">均</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="SYTANG514" data-ign="李相赫" data-role="成員" data-note="操作細膩，公會主力。"><div class="member-avatar">李</div><div class="member-name">SYTANG514</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="魚" data-ign="魚丸" data-role="成員" data-note="活躍氣氛擔當。"><div class="member-avatar">魚</div><div class="member-name">魚</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="MING" data-ign="純愛戰士" data-role="成員" data-note="戰場上的浪漫主義者。"><div class="member-avatar">純</div><div class="member-name">MING</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="國峰" data-ign="Wing Zero" data-role="成員" data-note="強大的推進能力。"><div class="member-avatar">國</div><div class="member-name">國峰</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="184哥哥" data-ign="香港184哥哥" data-role="成員" data-note="來自香港的熱情戰友。"><div class="member-avatar">哥</div><div class="member-name">184哥哥</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="𝐋𝐢-𝐰𝐞𝐢 👻" data-ign="Dkih(京樂春水)" data-role="成員" data-note="深不可測的戰力。"><div class="member-avatar">京</div><div class="member-name">𝐋𝐢-𝐰𝐞𝐢</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Ryan Chiang" data-ign="花神啼、花貓" data-role="成員" data-note="風格獨特的戰士。"><div class="member-avatar">花</div><div class="member-name">Ryan</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="黃嘉豐" data-ign="超萌小貓" data-role="成員" data-note="別被外表騙了，實力堅強。"><div class="member-avatar">貓</div><div class="member-name">嘉豐</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="黃" data-ign="藍染惣右介" data-role="成員" data-note="計劃通。"><div class="member-avatar">藍</div><div class="member-name">黃</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Marin" data-ign="滿不炸的" data-role="成員" data-note="輸出穩定。"><div class="member-avatar">滿</div><div class="member-name">Marin</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="埼" data-ign="lulu、柳官人" data-role="成員" data-note="優雅的戰鬥風格。"><div class="member-avatar">柳</div><div class="member-name">埼</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="糸韋" data-ign="39s感謝祭" data-role="成員" data-note="熱愛活動的成員。"><div class="member-avatar">韋</div><div class="member-name">糸韋</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="盛慶" data-ign="一條龍" data-role="成員" data-note="一氣呵成的連招。"><div class="member-avatar">龍</div><div class="member-name">盛慶</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="文澄" data-ign="起床重睡" data-role="成員" data-note="早起是為了打公會王。"><div class="member-avatar">睡</div><div class="member-name">文澄</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="饅頭" data-ign="花歿漓" data-role="成員" data-note="低調的強者。"><div class="member-avatar">漓</div><div class="member-name">饅頭</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Liam" data-ign="俗辣都買ETF" data-role="成員" data-note="懂得生存，也懂得戰鬥。"><div class="member-avatar">蛋</div><div class="member-name">Liam</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="柏翰" data-ign="諾伊" data-role="成員" data-note="核心成員。"><div class="member-avatar">翰</div><div class="member-name">柏翰</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="馮冠勛" data-ign="啲逼兜" data-role="成員" data-note="爆發力十足。"><div class="member-avatar">啲</div><div class="member-name">冠勛</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Ming" data-ign="叫聲銘哥先拉" data-role="成員" data-note="公會的大哥哥。"><div class="member-avatar">銘</div><div class="member-name">Ming</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="奎佑" data-ign="小雨" data-role="成員" data-note="沈穩的戰力。"><div class="member-avatar">雨</div><div class="member-name">奎佑</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Yuan阿淵" data-ign="阿淵" data-role="成員" data-note="熱愛公會的成員。"><div class="member-avatar">淵</div><div class="member-name">阿淵</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="🐑" data-ign="瓊稻穗恭源" data-role="成員" data-note="獨特的名字。"><div class="member-avatar">羊</div><div class="member-name">🐑</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Y." data-ign="露就這麼萌！" data-role="成員" data-note="露粉站出來。"><div class="member-avatar">萌</div><div class="member-name">Y.</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="詠" data-ign="源千里" data-role="成員" data-note="戰鬥意志堅定。"><div class="member-avatar">詠</div><div class="member-name">詠</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="熹貴妃" data-ign="Miyeon" data-role="成員" data-note="華麗的戰鬥方式。"><div class="member-avatar">熹</div><div class="member-name">熹貴妃</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="楊翔渝" data-ign="拉屎神" data-role="成員" data-note="很有味道的名字。"><div class="member-avatar">神</div><div class="member-name">翔渝</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Jun" data-ign="Junnn" data-role="成員" data-note="可靠的朋友。"><div class="member-avatar">Jun</div><div class="member-name">Jun</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="And..y" data-ign="嘎滋作響吧" data-role="成員" data-note="氣勢十足。"><div class="member-avatar">嘎</div><div class="member-name">Andy</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="龍" data-ign="此身即無間" data-role="成員" data-note="霸氣外漏。"><div class="member-avatar">龍</div><div class="member-name">龍</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="修" data-ign="驪" data-role="成員" data-note="快速突襲。"><div class="member-avatar">修</div><div class="member-name">修</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="佑" data-ign="好想兔" data-role="成員" data-note="幽默風趣。"><div class="member-avatar">兔</div><div class="member-name">佑</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="問壹" data-ign="更木隊隊士" data-role="成員" data-note="狂熱的戰鬥狂。"><div class="member-avatar">更</div><div class="member-name">問壹</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="輝仔" data-ign="杏仁豆漿" data-role="成員" data-note="好喝。"><div class="member-avatar">豆</div><div class="member-name">輝仔</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="楊竣程" data-ign="羔羊芒狗" data-role="成員" data-note="戰力爆發。"><div class="member-avatar">芒</div><div class="member-name">竣程</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Wei" data-ign="瑋葛格" data-role="成員" data-note="親切的夥伴。"><div class="member-avatar">瑋</div><div class="member-name">Wei</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="凱綸" data-ign="赤鴻飛羽" data-role="成員" data-note="動作輕盈。"><div class="member-avatar">羽</div><div class="member-name">凱綸</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="吳泓嶔" data-ign="比菲兔" data-role="成員" data-note="公會戰主力。"><div class="member-avatar">兔</div><div class="member-name">泓嶔</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="hahaxd" data-ign="hahaxd" data-role="成員" data-note="開朗的戰士。"><div class="member-avatar">ha</div><div class="member-name">hahaxd</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="祐愷" data-ign="小蕃薯" data-role="成員" data-note="潛力十足。"><div class="member-avatar">薯</div><div class="member-name">祐愷</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="詩哲~" data-ign="呼呢死" data-role="成員" data-note="穩定的支援。"><div class="member-avatar">詩</div><div class="member-name">詩哲</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="則" data-ign="皮皮" data-role="成員" data-note="靈活機動。"><div class="member-avatar">皮</div><div class="member-name">則</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="任佑" data-ign="最後月牙天抽" data-role="成員" data-note="關鍵時刻一擊必殺。"><div class="member-avatar">月</div><div class="member-name">任佑</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="徐徐徐" data-ign="太扯了吧" data-role="成員" data-note="真的太扯了。"><div class="member-avatar">扯</div><div class="member-name">徐徐徐</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="AA" data-ign="操盤手" data-role="成員" data-note="精確控制戰局。"><div class="member-avatar">AA</div><div class="member-name">AA</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="ファンファン" data-ign="黑棺" data-role="成員" data-note="沈默但致命。"><div class="member-avatar">黑</div><div class="member-name">粉絲</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="H. C. Pan" data-ign="Panasd" data-role="成員" data-note="全力以赴。"><div class="member-avatar">Pa</div><div class="member-name">Pan</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Kidson Lai" data-ign="蟹仔" data-role="成員" data-note="戰場上的橫行者。"><div class="member-avatar">蟹</div><div class="member-name">Kidson</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="PO_月牙真神" data-ign="月牙真神" data-role="成員" data-note="月牙天衝的信徒。"><div class="member-avatar">月</div><div class="member-name">真神</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="珍惜淚" data-ign="軒轅墨" data-role="成員" data-note="優雅的古風。"><div class="member-avatar">墨</div><div class="member-name">珍惜淚</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="朱祐廷" data-ign="看破不說破乄" data-role="成員" data-note="洞察力敏銳。"><div class="member-avatar">廷</div><div class="member-name">祐廷</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="翔" data-ign="翔祥" data-role="成員" data-note="自由飛翔。"><div class="member-avatar">翔</div><div class="member-name">翔</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Jeff" data-ign="你老爸" data-role="成員" data-note="公會的家長。"><div class="member-avatar">父</div><div class="member-name">Jeff</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="施佑樺" data-ign="無課免費仔" data-role="成員" data-note="最強平民戰力。"><div class="member-avatar">施</div><div class="member-name">佑樺</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="馨慧Remi" data-ign="Do Remi" data-role="成員" data-note="節奏感十足。"><div class="member-avatar">Remi</div><div class="member-name">馨慧</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Hugo" data-ign="恩恩恩恩" data-role="成員" data-note="回應總是很簡潔。"><div class="member-avatar">Hu</div><div class="member-name">Hugo</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Faker" data-ign="蕃薯隊長" data-role="成員" data-note="帶領衝鋒。"><div class="member-avatar">Fa</div><div class="member-name">Faker</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="JT" data-ign="JT" data-role="成員" data-note="冷靜沈著。"><div class="member-avatar">JT</div><div class="member-name">JT</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="王澤勛" data-ign="Jeffery" data-role="成員" data-note="戰力優越。"><div class="member-avatar">勛</div><div class="member-name">澤勛</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Heisonww" data-ign="Heison" data-role="成員" data-note="戰力核心。"><div class="member-avatar">He</div><div class="member-name">Heison</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="小寶" data-ign="熾天使" data-role="成員" data-note="守護公會。"><div class="member-avatar">使</div><div class="member-name">小寶</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="J森" data-ign="堂怵徘谷" data-role="成員" data-note="獨樹一格。"><div class="member-avatar">森</div><div class="member-name">J森</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="殘玥" data-ign="殘玥Blar" data-role="成員" data-note="冷酷的戰士。"><div class="member-avatar">玥</div><div class="member-name">殘玥</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="黃子競" data-ign="八大金剛" data-role="成員" data-note="力量強大。"><div class="member-avatar">八</div><div class="member-name">子競</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Jack" data-ign="更木劍八" data-role="成員" data-note="享受戰鬥的樂趣。"><div class="member-avatar">更</div><div class="member-name">Jack</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="陳睦堯" data-ign="Jia" data-role="成員" data-note="熱心助人。"><div class="member-avatar">堯</div><div class="member-name">睦堯</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="梁培原" data-ign="就是喜歡你" data-role="成員" data-note="熱情如火。"><div class="member-avatar">原</div><div class="member-name">培原</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="楊晨郁" data-ign="我只是隻貓" data-role="成員" data-note="喵～不要小看我。"><div class="member-avatar">郁</div><div class="member-name">晨郁</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="林昆融" data-ign="什麼懶" data-role="成員" data-note="名稱很有個性。"><div class="member-avatar">融</div><div class="member-name">昆融</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="洪" data-ign="屯到牛頭" data-role="成員" data-note="蓄勢待發。"><div class="member-avatar">洪</div><div class="member-name">洪</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="趙梓良" data-ign="奇跡" data-role="成員" data-note="創造不可能。"><div class="member-avatar">奇</div><div class="member-name">梓良</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="ZHANG™" data-ign="@ZHANG™" data-role="成員" data-note="專業認證。"><div class="member-avatar">ZH</div><div class="member-name">ZHANG</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="余" data-ign="紀讚美條" data-role="成員" data-note="信仰堅定。"><div class="member-avatar">余</div><div class="member-name">余</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="吳昱震" data-ign="烏薩奇" data-role="成員" data-note="咿呀！"><div class="member-avatar">震</div><div class="member-name">昱震</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Chen Hung" data-ign="鑰匙" data-role="成員" data-note="開啟勝利之門。"><div class="member-avatar">Che</div><div class="member-name">Chen</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="Mud" data-ign="Mud" data-role="成員" data-note="沈穩踏實。"><div class="member-avatar">Mud</div><div class="member-name">Mud</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="SR" data-ign="玫瑰少年" data-role="成員" data-note="優雅戰鬥。"><div class="member-avatar">玫</div><div class="member-name">SR</div><span class="role-tag">成員</span></div>
+                    <div class="member-card" data-name="ㄚ丁" data-ign="阿丁" data-role="成員" data-note="忠實戰友。"><div class="member-avatar">丁</div><div class="member-name">ㄚ丁</div><span class="role-tag">成員</span></div>
+                </div>
+            </div>
+            <button class="toggle-btn" id="toggleBtn" onclick="toggleMembers()">展開完整名冊</button>
         </section>
 
         <section id="wiki" style="margin-top: 100px;">
@@ -312,108 +248,33 @@
                 </div>
             </div>
         </section>
-
-        <section id="members" class="member-section">
-            <h2 class="section-title">成員名錄 (共計 70+ 位)</h2>
-            
-            <div class="member-wrapper" id="memberWrapper">
-                <div class="member-grid">
-                    <div class="member-card"><div class="member-avatar">凱</div><div class="member-name">凱蒂</div><div class="member-ign">凱蒂喵喵</div><span class="member-role role-leader">會長</span></div>
-                    
-                    <div class="member-card"><div class="member-avatar">均</div><div class="member-name">均</div><div class="member-ign">EvR</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">李</div><div class="member-name">SYTANG514</div><div class="member-ign">李相赫</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">魚</div><div class="member-name">魚</div><div class="member-ign">魚丸</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">純</div><div class="member-name">MING</div><div class="member-ign">純愛戰士</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">國</div><div class="member-name">國峰</div><div class="member-ign">Wing Zero</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">哥</div><div class="member-name">184哥哥</div><div class="member-ign">香港184哥哥</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">京</div><div class="member-name">𝐋𝐢-𝐰𝐞𝐢 👻</div><div class="member-ign">Dkih(京樂春水)</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">花</div><div class="member-name">Ryan Chiang</div><div class="member-ign">花神啼、花貓</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">貓</div><div class="member-name">043 黃嘉豐</div><div class="member-ign">超萌小貓</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">藍</div><div class="member-name">黃</div><div class="member-ign">藍染惣右介</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">滿</div><div class="member-name">Marin</div><div class="member-ign">滿不炸的</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">柳</div><div class="member-name">埼</div><div class="member-ign">lulu、柳官人</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">韋</div><div class="member-name">糸韋</div><div class="member-ign">39s感謝祭</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">龍</div><div class="member-name">盛慶</div><div class="member-ign">一條龍</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">睡</div><div class="member-name">文澄</div><div class="member-ign">起床重睡</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">漓</div><div class="member-name">饅頭</div><div class="member-ign">花歿漓</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">蛋</div><div class="member-name">Liam</div><div class="member-ign">溫泉蛋</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">翰</div><div class="member-name">柏翰</div><div class="member-ign">諾伊</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">啲</div><div class="member-name">馮冠勛Adam</div><div class="member-ign">啲逼兜</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">銘</div><div class="member-name">Ming</div><div class="member-ign">叫聲銘哥先拉</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">雨</div><div class="member-name">奎佑</div><div class="member-ign">小雨</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">淵</div><div class="member-name">Yuan阿淵</div><div class="member-ign">阿淵</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">羊</div><div class="member-name">🐑</div><div class="member-ign">瓊稻穗恭源</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">萌</div><div class="member-name">Y.</div><div class="member-ign">露就這麼萌！</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">詠</div><div class="member-name">詠</div><div class="member-ign">源千里</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">熹</div><div class="member-name">熹貴妃</div><div class="member-ign">Miyeon</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">神</div><div class="member-name">楊翔渝</div><div class="member-ign">拉屎神</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">Jun</div><div class="member-name">Jun</div><div class="member-ign">Junnn</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">嘎</div><div class="member-name">And..y</div><div class="member-ign">嘎滋作響吧</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">龍</div><div class="member-name">龍</div><div class="member-ign">此身即無間</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">修</div><div class="member-name">修</div><div class="member-ign">驪</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">兔</div><div class="member-name">佑</div><div class="member-ign">好想兔</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">更</div><div class="member-name">問壹</div><div class="member-ign">更木隊隊士</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">豆</div><div class="member-name">輝仔</div><div class="member-ign">杏仁豆漿</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">芒</div><div class="member-name">楊竣程</div><div class="member-ign">羔羊芒狗</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">瑋</div><div class="member-name">Wei</div><div class="member-ign">瑋葛格</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">羽</div><div class="member-name">凱綸</div><div class="member-ign">赤鴻飛羽</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">兔</div><div class="member-name">吳泓嶔</div><div class="member-ign">比菲兔</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">ha</div><div class="member-name">hahaxd</div><div class="member-ign">hahaxd</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">薯</div><div class="member-name">祐愷</div><div class="member-ign">小蕃薯</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">詩</div><div class="member-name">詩哲~</div><div class="member-ign">呼呢死</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">皮</div><div class="member-name">則</div><div class="member-ign">皮皮</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">月</div><div class="member-name">任佑</div><div class="member-ign">最後月牙天抽</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">扯</div><div class="member-name">徐徐徐</div><div class="member-ign">太扯了吧</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">AA</div><div class="member-name">AA</div><div class="member-ign">操盤手</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">黑</div><div class="member-name">ファンファン</div><div class="member-ign">黑棺</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">Pa</div><div class="member-name">H. C. Pan</div><div class="member-ign">Panasd</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">蟹</div><div class="member-name">Kidson Lai</div><div class="member-ign">蟹仔</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">月</div><div class="member-name">PO_月牙真神</div><div class="member-ign">月牙真神</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">墨</div><div class="member-name">珍惜淚</div><div class="member-ign">軒轅墨</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">廷</div><div class="member-name">朱祐廷</div><div class="member-ign">看破不說破乄</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">翔</div><div class="member-name">翔</div><div class="member-ign">翔祥</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">父</div><div class="member-name">Jeff</div><div class="member-ign">你老爸</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">施</div><div class="member-name">施佑樺</div><div class="member-ign">無課免費仔</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">Remi</div><div class="member-name">馨慧Remi</div><div class="member-ign">Do Remi</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">Hu</div><div class="member-name">Hugo</div><div class="member-ign">恩恩恩恩</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">Fa</div><div class="member-name">Faker</div><div class="member-ign">蕃薯隊長</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">JT</div><div class="member-name">JT</div><div class="member-ign">JT</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">勛</div><div class="member-name">王澤勛</div><div class="member-ign">Jeffery</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">He</div><div class="member-name">Heisonww</div><div class="member-ign">Heison</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">使</div><div class="member-name">小寶</div><div class="member-ign">熾天使</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">森</div><div class="member-name">J森</div><div class="member-ign">堂怵徘谷</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">玥</div><div class="member-name">殘玥</div><div class="member-ign">殘玥Blar</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">八</div><div class="member-name">黃子競</div><div class="member-ign">八大金剛</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">更</div><div class="member-name">Jack</div><div class="member-ign">更木劍八</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">堯</div><div class="member-name">陳睦堯</div><div class="member-ign">Jia</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">原</div><div class="member-name">梁培原</div><div class="member-ign">就是喜歡你</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">郁</div><div class="member-name">楊晨郁</div><div class="member-ign">我只是隻貓</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">融</div><div class="member-name">林昆融</div><div class="member-ign">什麼懶</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">洪</div><div class="member-name">洪</div><div class="member-ign">屯到牛頭</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">奇</div><div class="member-name">趙梓良</div><div class="member-ign">奇跡</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">ZH</div><div class="member-name">ZHANG™</div><div class="member-ign">@ZHANG™</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">余</div><div class="member-name">余</div><div class="member-ign">紀讚美條</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">震</div><div class="member-name">吳昱震</div><div class="member-ign">烏薩奇</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">Che</div><div class="member-name">Chen Hung</div><div class="member-ign">鑰匙</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">Mud</div><div class="member-name">Mud</div><div class="member-ign">Mud</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">玫</div><div class="member-name">SR</div><div class="member-ign">玫瑰少年</div><span class="member-role">成員</span></div>
-                    <div class="member-card"><div class="member-avatar">丁</div><div class="member-name">ㄚ丁</div><div class="member-ign">阿丁</div><span class="member-role">成員</span></div>
-                </div>
-            </div>
-
-            <button class="toggle-btn" id="toggleBtn" onclick="toggleMembers()">展開完整名冊</button>
-        </section>
     </main>
 
+    <div class="modal" id="memberModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h3 id="modalMemberName">姓名</h3>
+            <span id="modalMemberIgn">遊戲暱稱</span>
+            <div class="modal-body">
+                <p><strong>擔任職位：</strong> <span id="modalMemberRole"></span></p>
+                <p><strong>成員筆記：</strong> <span id="modalMemberNote"></span></p>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // 1. 手機漢堡選單切換
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        menuToggle.addEventListener('click', () => navLinks.classList.toggle('show'));
+
+        // 2. 摺疊名單邏輯
         function toggleMembers() {
             const wrapper = document.getElementById('memberWrapper');
             const btn = document.getElementById('toggleBtn');
-
             if (wrapper.classList.contains('expanded')) {
                 wrapper.classList.remove('expanded');
                 btn.innerText = "展開完整名冊";
-                // 平滑滾回到區域頂部
                 document.getElementById('members').scrollIntoView({ behavior: 'smooth' });
             } else {
                 wrapper.classList.add('expanded');
@@ -421,15 +282,29 @@
             }
         }
 
-        // 當導航欄被點擊時，自動展開
         function forceExpand() {
             const wrapper = document.getElementById('memberWrapper');
-            const btn = document.getElementById('toggleBtn');
-            if (!wrapper.classList.contains('expanded')) {
-                wrapper.classList.add('expanded');
-                btn.innerText = "收起完整名冊";
-            }
+            if (!wrapper.classList.contains('expanded')) toggleMembers();
+            if (navLinks.classList.contains('show')) navLinks.classList.remove('show');
         }
+
+        // 3. 彈窗名片邏輯
+        const modal = document.getElementById('memberModal');
+        const closeModal = document.getElementById('closeModal');
+        const cards = document.querySelectorAll('.member-card');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                document.getElementById('modalMemberName').innerText = card.dataset.name;
+                document.getElementById('modalMemberIgn').innerText = card.dataset.ign;
+                document.getElementById('modalMemberRole').innerText = card.dataset.role;
+                document.getElementById('modalMemberNote').innerText = card.dataset.note;
+                modal.style.display = 'flex';
+            });
+        });
+
+        closeModal.onclick = () => modal.style.display = 'none';
+        window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
     </script>
 </body>
 </html>
