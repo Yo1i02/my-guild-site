@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逸仙樓 | 遊戲公會官網</title>
+    <style>
+        /* 基礎設定 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft JhengHei", sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #0b0b0b;
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* 1. 固定背景層 */
+        .fixed-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                        url('GG For The Follow.jpeg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        /* 2. 導航欄 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #ffa600; }
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #ff4d4d; }
+
+        /* 3. 主視覺區域 */
+        .hero-section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-title {
+            font-size: clamp(50px, 10vw, 90px);
+            letter-spacing: 15px;
+            text-shadow: 0 0 20px #ffa600, 0 0 40px #ff0000;
+            margin-bottom: 10px;
+            animation: slideIn 1.2s ease-out;
+        }
+
+        .sub-title {
+            font-size: 22px;
+            color: #ff4d4d;
+            margin-bottom: 25px;
+            letter-spacing: 5px;
+            animation: slideIn 1.5s ease-out;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #ffa704;
+
+            max-width: 650px;
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 166, 0, 0.2);
+        }
+
+        /* 背景透明度 */
+        /* 強制讓所有 section（最新消息、重要任務等）垂直排列並自動撐開 */
+        .content-container {
+            display: flex !important;
+            flex-direction: column !important;
+            height: auto !important; /* 確保容器高度不是死板的 100% 或固定數值 */
+            background: rgba(11, 11, 11, 0.50) !important; /* 順便調高透明度 */
+        }
+
+        /* 確保每個區塊之間有間距，且不會重疊 */
+        section {
+            position: relative !important;
+            margin-bottom: 50px !important;
+            height: auto !important;
+            display: block !important;
+        }
+
+        /* 還原紅色線框發光按鈕 */
+        .cta-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 20px 0;
+            color: #ffffff; /* 金色文字 */
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            border: 1px solid #ff4d4d; /* 紅色線框 */
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.4); /* 半透明黑色背景 */
+            transition: all 0.3s ease;
+            cursor: pointer;
+            letter-spacing: 2px;
+        }
+
+        /* 點擊與懸停時的發光效果 */
+        .cta-btn:hover {
+            color: #fff;
+            background: #ff4d4d;
+            box-shadow: 0 0 20px #ff4d4d, 0 0 40px #ff4d4d; /* 紅色霓虹發光 */
+            transform: translateY(-3px);
+        }
+        /* 4. 內容區 */
+        .content-container {
+            padding: 100px 10%;
+            background-color: rgba(11, 11, 11, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 32px;
+            border-left: 6px solid #ff4d4d;
+            padding-left: 20px;
+            margin-bottom: 50px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: #ff4d4d;
+            transform: translateY(-10px);
+            background: #222;
+        }
+
+        .card h3 { color: #ffa600; margin-bottom: 15px; }
+        .card p { color: #bbb; }
+
+        /* 5. 成員名錄折疊版 */
+        .member-section { padding: 60px 0; }
+
+        .member-wrapper {
+            max-height: 0; /* 預設完全隱藏 */
+            overflow: hidden;
+            transition: max-height 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
+            opacity: 0;
+        }
+
+        .member-wrapper.expanded {
+            max-height: 8000px; /* 足夠容納 70+ 人的高度 */
+            opacity: 1;
+            margin-bottom: 30px;
+        }
+
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* 1. 讓成員名單恢復橫向排列，且在不同螢幕自動調整數量 */
+        .member-grid {
+            display: grid !important;
+            /* 電腦版一列 5-6 個，手機版一列 2 個 */
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+            gap: 20px !important;
+            padding: 20px 0 !important;
+            width: 100% !important;
+        }
+
+        /* 2. 修正卡片外觀，讓它不要撐得太長 */
+        .member-card {
+            background: rgba(40, 40, 40, 0.6) !important; /* 半透明灰色 */
+            border: 1px solid rgba(255, 166, 0, 0.3) !important; /* 淡淡的金橘色邊框 */
+            border-radius: 10px !important;
+            padding: 20px 10px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important; /* 確保頭像與名字水平置中 */
+            transition: all 0.3s ease !important;
+            cursor: pointer;
+        }
+
+        /* 3. 滑鼠移上去的發光效果，增加互動感 */
+        .member-card:hover {
+            transform: translateY(-5px) !important;
+            border-color: #ff4d4d !important;
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4) !important;
+            background: rgba(50, 50, 50, 0.8) !important;
+        }
+
+        /* 4. 確保頭像（圓圈）維持正圓且置中 */
+        .member-avatar {
+            width: 60px !important;
+            height: 60px !important;
+            margin-bottom: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            /* 保持原本的圓圈樣式 */
+        }
+
+        .member-name { font-size: 15px; font-weight: bold; color: #fff; }
+        .member-ign { font-size: 12px; color: #ff4d4d; margin-bottom: 8px; }
+        .member-role {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            border: 1px solid #444;
+        }
+
+        .role-leader { background: rgba(255, 166, 0, 0.2); color: #ffa600; border-color: #ffa600; }
+
+        /* 展開按鈕 */
+        .toggle-btn {
+            display: block;
+            margin: 40px auto;
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid #ffa600;
+            color: #ffa600;
+            cursor: pointer;
+            font-size: 18px;
+            letter-spacing: 3px;
+            transition: 0.4s;
+            border-radius: 4px;
+        }
+
+        .toggle-btn:hover {
+            background: #ffa600;
+            color: #000;
+            box-shadow: 0 0 20px #ffa600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fixed-bg"></div>
+
+    <nav>
+        <div class="logo">逸仙樓</div>
+        <div class="nav-links">
+            <a href="#">首頁</a>
+            <a href="#news">最新消息</a>
+            <a href="#notice">公會規章</a>
+            <a href="#members" onclick="forceExpand()">成員名錄</a>
+            <a href="#wiki">攻略情報</a>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <h1 class="main-title">逸仙樓</h1>
+        <p class="sub-title">BLEACH：刀鳴 公會官網</p>
+        <div class="description">
+            <p>嗨嘍～歡迎各位的加入！</p>
+            <p>🔥每天務必參與「公會王」與「金幣捐贈」</p>
+            <p>🔥世界王記得按傷害增益，週三、五、日準時開戰！</p>
+        </div>
+        <a href="#notice" class="cta-btn">查看公會規章</a>
+    </header>
+
+    <main class="content-container">
+
+        <section id="news" style="margin-top: 100px;">
+            <h2 class="section-title">最新消息</h2>
+            <div class="card" style="width: 100%;">
+                
+                <p><span style="color: #ff4d4d;">[公告]</span> 2026/03/27 世界王正式開啟，請成員準時上線！</p>
+                <hr style="border: 0.5px solid #333; margin: 10px 0;">
+                <p><span style="color: #ffa600;">[攻略]</span> 新角色「涅繭利」已上線。</p>
+                <hr style="border: 0.5px solid #333; margin: 10px 0;">
+                <p>
+                    <a href="guide01.html" target="_blank" style="text-decoration: none; color: inherit; cursor: pointer;">
+                        <span style="color: #ffa600;">[攻略]</span> 協戰注意事項 (點擊開啟新頁面)
+                    </a>
+                </p>
+            </div>
+        </section>
+
+        <section id="notice">
+            <h2 class="section-title">公會重要任務</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>每日必做</h3>
+                    <p>1. 公會王挑戰 <br>2. 滿額金幣捐贈<br>3. 領取公會福利</p>
+                </div>
+                <div class="card">
+                    <h3>限時活動</h3>
+                    <p>週三、五、日：世界王<br>請在活動開啟前確認增益 Buff 已就位。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="members" class="member-section">
+            <h2 class="section-title">成員名錄 (共計 70+ 位)</h2>
+            
+            <div class="member-wrapper" id="memberWrapper">
+                <div class="member-grid">
+                    <div class="member-card"><div class="member-avatar">凱</div><div class="member-name">凱蒂</div><div class="member-ign">凱蒂喵喵</div><span class="member-role role-leader">會長</span></div>
+                    
+                    <div class="member-card"><div class="member-avatar">均</div><div class="member-name">均</div><div class="member-ign">EvR</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">李</div><div class="member-name">SYTANG514</div><div class="member-ign">李相赫</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">魚</div><div class="member-name">魚</div><div class="member-ign">魚丸</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">純</div><div class="member-name">MING</div><div class="member-ign">純愛戰士</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">國</div><div class="member-name">國峰</div><div class="member-ign">Wing Zero</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">哥</div><div class="member-name">184哥哥</div><div class="member-ign">香港184哥哥</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">京</div><div class="member-name">𝐋𝐢-𝐰𝐞𝐢 👻</div><div class="member-ign">Dkih(京樂春水)</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">花</div><div class="member-name">Ryan Chiang</div><div class="member-ign">花神啼、花貓</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">貓</div><div class="member-name">043 黃嘉豐</div><div class="member-ign">超萌小貓</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">藍</div><div class="member-name">黃</div><div class="member-ign">藍染惣右介</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">滿</div><div class="member-name">Marin</div><div class="member-ign">滿不炸的</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">柳</div><div class="member-name">埼</div><div class="member-ign">lulu、柳官人</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">韋</div><div class="member-name">糸韋</div><div class="member-ign">39s感謝祭</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">龍</div><div class="member-name">盛慶</div><div class="member-ign">一條龍</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">睡</div><div class="member-name">文澄</div><div class="member-ign">起床重睡</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">漓</div><div class="member-name">饅頭</div><div class="member-ign">花歿漓</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">蛋</div><div class="member-name">Liam</div><div class="member-ign">溫泉蛋</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">翰</div><div class="member-name">柏翰</div><div class="member-ign">諾伊</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">啲</div><div class="member-name">馮冠勛Adam</div><div class="member-ign">啲逼兜</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">銘</div><div class="member-name">Ming</div><div class="member-ign">叫聲銘哥先拉</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">雨</div><div class="member-name">奎佑</div><div class="member-ign">小雨</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">淵</div><div class="member-name">Yuan阿淵</div><div class="member-ign">阿淵</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">羊</div><div class="member-name">🐑</div><div class="member-ign">瓊稻穗恭源</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">萌</div><div class="member-name">Y.</div><div class="member-ign">露就這麼萌！</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">詠</div><div class="member-name">詠</div><div class="member-ign">源千里</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">熹</div><div class="member-name">熹貴妃</div><div class="member-ign">Miyeon</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">神</div><div class="member-name">楊翔渝</div><div class="member-ign">拉屎神</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">Jun</div><div class="member-name">Jun</div><div class="member-ign">Junnn</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">嘎</div><div class="member-name">And..y</div><div class="member-ign">嘎滋作響吧</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">龍</div><div class="member-name">龍</div><div class="member-ign">此身即無間</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">修</div><div class="member-name">修</div><div class="member-ign">驪</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">兔</div><div class="member-name">佑</div><div class="member-ign">好想兔</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">更</div><div class="member-name">問壹</div><div class="member-ign">更木隊隊士</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">豆</div><div class="member-name">輝仔</div><div class="member-ign">杏仁豆漿</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">芒</div><div class="member-name">楊竣程</div><div class="member-ign">羔羊芒狗</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">瑋</div><div class="member-name">Wei</div><div class="member-ign">瑋葛格</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">羽</div><div class="member-name">凱綸</div><div class="member-ign">赤鴻飛羽</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">兔</div><div class="member-name">吳泓嶔</div><div class="member-ign">比菲兔</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">ha</div><div class="member-name">hahaxd</div><div class="member-ign">hahaxd</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">薯</div><div class="member-name">祐愷</div><div class="member-ign">小蕃薯</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">詩</div><div class="member-name">詩哲~</div><div class="member-ign">呼呢死</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">皮</div><div class="member-name">則</div><div class="member-ign">皮皮</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">月</div><div class="member-name">任佑</div><div class="member-ign">最後月牙天抽</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">扯</div><div class="member-name">徐徐徐</div><div class="member-ign">太扯了吧</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">AA</div><div class="member-name">AA</div><div class="member-ign">操盤手</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">黑</div><div class="member-name">ファンファン</div><div class="member-ign">黑棺</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">Pa</div><div class="member-name">H. C. Pan</div><div class="member-ign">Panasd</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">蟹</div><div class="member-name">Kidson Lai</div><div class="member-ign">蟹仔</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">月</div><div class="member-name">PO_月牙真神</div><div class="member-ign">月牙真神</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">墨</div><div class="member-name">珍惜淚</div><div class="member-ign">軒轅墨</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">廷</div><div class="member-name">朱祐廷</div><div class="member-ign">看破不說破乄</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">翔</div><div class="member-name">翔</div><div class="member-ign">翔祥</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">父</div><div class="member-name">Jeff</div><div class="member-ign">你老爸</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">施</div><div class="member-name">施佑樺</div><div class="member-ign">無課免費仔</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">Remi</div><div class="member-name">馨慧Remi</div><div class="member-ign">Do Remi</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">Hu</div><div class="member-name">Hugo</div><div class="member-ign">恩恩恩恩</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">Fa</div><div class="member-name">Faker</div><div class="member-ign">蕃薯隊長</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">JT</div><div class="member-name">JT</div><div class="member-ign">JT</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">勛</div><div class="member-name">王澤勛</div><div class="member-ign">Jeffery</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">He</div><div class="member-name">Heisonww</div><div class="member-ign">Heison</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">使</div><div class="member-name">小寶</div><div class="member-ign">熾天使</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">森</div><div class="member-name">J森</div><div class="member-ign">堂怵徘谷</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">玥</div><div class="member-name">殘玥</div><div class="member-ign">殘玥Blar</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">八</div><div class="member-name">黃子競</div><div class="member-ign">八大金剛</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">更</div><div class="member-name">Jack</div><div class="member-ign">更木劍八</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">堯</div><div class="member-name">陳睦堯</div><div class="member-ign">Jia</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">原</div><div class="member-name">梁培原</div><div class="member-ign">就是喜歡你</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">郁</div><div class="member-name">楊晨郁</div><div class="member-ign">我只是隻貓</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">融</div><div class="member-name">林昆融</div><div class="member-ign">什麼懶</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">洪</div><div class="member-name">洪</div><div class="member-ign">屯到牛頭</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">奇</div><div class="member-name">趙梓良</div><div class="member-ign">奇跡</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">ZH</div><div class="member-name">ZHANG™</div><div class="member-ign">@ZHANG™</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">余</div><div class="member-name">余</div><div class="member-ign">紀讚美條</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">震</div><div class="member-name">吳昱震</div><div class="member-ign">烏薩奇</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">Che</div><div class="member-name">Chen Hung</div><div class="member-ign">鑰匙</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">Mud</div><div class="member-name">Mud</div><div class="member-ign">Mud</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">玫</div><div class="member-name">SR</div><div class="member-ign">玫瑰少年</div><span class="member-role">成員</span></div>
+                    <div class="member-card"><div class="member-avatar">丁</div><div class="member-name">ㄚ丁</div><div class="member-ign">阿丁</div><span class="member-role">成員</span></div>
+                </div>
+            </div>
+
+            <button class="toggle-btn" id="toggleBtn" onclick="toggleMembers()">展開完整名冊</button>
+        </section>
+
+        <section id="wiki" style="margin-top: 100px;">
+            <h2 class="section-title">遊戲攻略庫</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>協戰注意事項</h3>
+                    <p>
+                        <a href="guide01.html" target="_blank" style="text-decoration: none; color: inherit; cursor: pointer;">
+                            <span style="color: #ffa600;">[攻略]</span> 協戰注意事項 (點擊開啟新分頁)
+                        </a>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>角色培育指南</h3>
+                    <p>
+                        <a href="guide02.html" target="_blank" style="text-decoration: none; color: inherit; cursor: pointer;">
+                            <span style="color: #ffa600;">[攻略]</span> 角色升級及玩法攻略 (點擊開啟新分頁)
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleMembers() {
+            const wrapper = document.getElementById('memberWrapper');
+            const btn = document.getElementById('toggleBtn');
+
+            if (wrapper.classList.contains('expanded')) {
+                wrapper.classList.remove('expanded');
+                btn.innerText = "展開完整名冊";
+                // 平滑滾回到區域頂部
+                document.getElementById('members').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                wrapper.classList.add('expanded');
+                btn.innerText = "收起完整名冊";
+            }
+        }
+
+        // 當導航欄被點擊時，自動展開
+        function forceExpand() {
+            const wrapper = document.getElementById('memberWrapper');
+            const btn = document.getElementById('toggleBtn');
+            if (!wrapper.classList.contains('expanded')) {
+                wrapper.classList.add('expanded');
+                btn.innerText = "收起完整名冊";
+            }
+        }
+    </script>
+</body>
+</html>
