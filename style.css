@@ -52,6 +52,49 @@
             transition: 0.3s;
         }
         .nav-links a:hover { color: #ff4d4d; }
+        /* 漢堡圖示樣式 */
+        .menu-icon {
+            display: none; /* 電腦版隱藏 */
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 1001; /* 確保在最上層 */
+        }
+
+        .menu-icon span {
+            width: 30px;
+            height: 3px;
+            background-color: #ffa600; /* 金色線條 */
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: flex; /* 手機版顯示 */
+                position: fixed;
+                right: 20px;
+                top: 20px;
+            }
+
+            /* 確保原本的導覽連結在手機版是隱藏的，直到加上 active */
+            .nav-links {
+                display: none; /* 預設隱藏 */
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                display: flex; /* 點擊後顯示 */
+            }
+        }
 
         /* 3. 主視覺區域 */
         .hero-section {
@@ -387,8 +430,9 @@
             list-style: none;       /* 移除原本醜醜的圓點 */
             padding: 0;
             margin: 0;
-        }/* 當螢幕寬度小於 768px 時執行（手機與平板直向） */
-@media (max-width: 768px) {
+        }
+        /* 當螢幕寬度小於 768px 時執行（手機與平板直向） */
+    @media (max-width: 768px) {
     .main-container {
         flex-direction: column; /* 讓導覽列跟內容變成上下排列 */
     }
@@ -434,4 +478,32 @@
         padding: 20px;      /* 縮小攻略框的內邊距 */
         border-radius: 10px;
     }
-}
+    }
+    /* 手機端 RWD 修正 */
+    @media (max-width: 768px) {
+    /* 當導覽列 active 時，讓主內容模糊或縮小 */
+    body.menu-open .container {
+        filter: blur(5px);
+        pointer-events: none; /* 防止誤觸內容 */
+    }
+    }
+    /* 修改外框線容器，增加內縮與邊距 */
+    .container {
+        max-width: 800px;
+        margin: 20px auto;      /* 上下留 20px，左右置中 */
+        background: rgba(20, 20, 20, 0.9);
+        padding: 30px 25px;      /* 左右增加 25px 的內縮空間，讓文字不靠邊 */
+        border-radius: 15px;
+        border: 1px solid #ffa600;
+        box-shadow: 0 0 30px rgba(255, 166, 0, 0.1);
+        
+        /* 關鍵：確保在手機版時，左右至少留出 5% 的空隙，不要貼死螢幕 */
+        width: 90%;             
+    }
+
+    /* 為了讓文字閱讀更舒適，段落也可以加一點點左右間距 */
+    p {
+        margin-bottom: 15px;
+        padding: 0 5px; 
+    }
+    
