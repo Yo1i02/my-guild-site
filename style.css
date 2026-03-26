@@ -227,7 +227,7 @@
             transform: translateY(-5px) !important;
             border-color: #ff4d4d !important;
             box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4) !important;
-            background: rgba(50, 50, 50, 0.8) !important;
+            background: rgba(50, 50, 50, 0.5) !important;
         }
 
         /* 4. 確保頭像（圓圈）維持正圓且置中 */
@@ -289,4 +289,102 @@
             .menu {
                 display: block;    /* 讓橫向選單變成縱向排列 */
             }
+        }
+        /* guide02 導覽頁核心架構 */
+        .main-container {
+            display: flex;         /* 讓 sidebar 和 content 左右並排 */
+            width: 100%;
+            min-height: 100vh;     /* 確保高度至少填滿整個螢幕 */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 左側導覽列樣式 */
+        .sidebar {
+            width: 260px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* 透明度稍微調高一點點，質感更好 */
+            backdrop-filter: blur(10px); 
+            color: #ffffff; 
+            padding: 40px 20px;
+            flex-shrink: 0;        /* 防止寬度被右邊內容擠壓 */
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+/* 導覽連結 */
+        .sidebar a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding-left: 20px;
+        }
+
+        /* 角色列表摺疊樣式 */
+        summary {
+            color: #ffffff;
+            cursor: pointer;
+            padding: 12px 15px;
+            font-weight: 600;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: '▶';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(90deg);
+        }
+
+        .sub-menu {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .sub-menu a {
+            font-size: 0.9rem;
+            padding-left: 30px; /* 縮進子選項 */
+        }
+
+        /* 右側內容區 */
+        .content {
+            flex-grow: 1;         /* 自動填滿剩餘空間 */
+            padding: 40px;
+            overflow-y: auto;    /* 內容太長時出現捲軸 */
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column; /* 核心修正：強制內容由上而下排列 */
+            padding: 40px 20px;
+            /* 其他原有設定... */
+        }
+
+        .sidebar-title {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 20px;    /* 跟下方選項保持距離 */
+            padding-left: 15px;     /* 跟選單文字對齊 */
+            letter-spacing: 2px;    /* 讓字跟字之間鬆一點，比較有質感 */
+            border-left: 4px solid #ffa600; /* 加一條橘色裝飾線在左邊，呼應內容區 */
+        }
+
+        .sidebar ul {
+            list-style: none;       /* 移除原本醜醜的圓點 */
+            padding: 0;
+            margin: 0;
         }
